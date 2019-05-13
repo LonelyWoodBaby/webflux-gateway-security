@@ -15,9 +15,20 @@
 - 令牌机制： JWT
 - 网关技术：Spring Cloud Gateway
 
+## 已实现功能：
+- 基于webflux开发
+- 加入spring cloud gateway网关
+- 加入服务调用时间统计
+- 加入Hysrix熔断功能
+- 加入ribbon负载均衡功能
+- 加入eureka网关注册功能（没有集成server端，默认关闭）
+- JWT令牌生成
+- 刷新令牌功能
+- 基于JWT的鉴权功能
+- rbac(user-role-permission)模式的用户角色鉴权功能
+
 
 ## 尚未完成事项：
-- 缺少rbac架构的权限校验（与redis相结合）
 - 缺少gateway限流操作（与redis相结合）
 
 
