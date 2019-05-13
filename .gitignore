@@ -133,3 +133,5 @@ local.properties
 
 src/test/
 target/generated-sources/
+.idea
+target
