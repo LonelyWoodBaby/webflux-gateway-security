@@ -14,6 +14,8 @@
 - 网关技术：Spring Cloud Gateway
 
 
-
+## 尚未完成事项：
+- 缺少rbac架构的权限校验（与redis相结合）
+- 缺少gateway限流操作（与redis相结合）
 
 
