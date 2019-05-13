@@ -1,5 +1,6 @@
 package com.dpacu.gateway.config;
 
+import com.dpacu.gateway.authorize.details.domain.PermissionDomain;
 import com.netflix.loadbalancer.BestAvailableRule;
 import com.netflix.loadbalancer.IRule;
 import feign.Logger;
@@ -8,6 +9,10 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
@@ -39,5 +44,18 @@ public class GatewayConfigure {
     @Bean
     Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
+    }
+
+    @Bean("permissionRedisTemplate")
+    public RedisTemplate<String, PermissionDomain> permissionRedisTemplate(RedisConnectionFactory connectionFactory){
+        RedisTemplate<String, PermissionDomain> permissionRedisTemplate = new RedisTemplate<>();
+        Jackson2JsonRedisSerializer<PermissionDomain> serializer = new Jackson2JsonRedisSerializer<PermissionDomain>(PermissionDomain.class);
+        permissionRedisTemplate.setValueSerializer(serializer);
+        permissionRedisTemplate.setHashKeySerializer(serializer);
+        permissionRedisTemplate.setKeySerializer(new StringRedisSerializer());
+        permissionRedisTemplate.setHashKeySerializer(new StringRedisSerializer());
+
+        permissionRedisTemplate.setConnectionFactory(connectionFactory);
+        return permissionRedisTemplate;
     }
 }

@@ -15,6 +15,8 @@ import java.util.Map;
 
 @Component
 public class JWTUtil {
+    public static final String TOKEN_ID = "token_id";
+    public static final String ROLE_ID = "role";
 
     @Value("${dpauc.oauth.jjwt.secret}")
     private String secret;
@@ -53,8 +55,8 @@ public class JWTUtil {
         AdminDetails adminDetails = (AdminDetails)userDetails;
         Map<String, Object> claims = new HashMap<>();
 //        claims.put("token_type",tokenType.name());
-        claims.put("token_id",tokenId);
-        claims.put("role", adminDetails.getRoleList().get(0).getRoleName());
+        claims.put(TOKEN_ID,tokenId);
+        claims.put(ROLE_ID, adminDetails.getRoleList().get(0).getRoleName());
         return doGenerateToken(claims, adminDetails.getUsername(),tokenType);
     }
 
