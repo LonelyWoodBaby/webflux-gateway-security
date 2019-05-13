@@ -26,6 +26,7 @@
 - 刷新令牌功能
 - 基于JWT的鉴权功能
 - rbac(user-role-permission)模式的用户角色鉴权功能
+- 权限信息将保存至redis中（需要redis中间件）
 
 
 ## 尚未完成事项：
