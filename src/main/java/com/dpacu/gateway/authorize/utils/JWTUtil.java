@@ -18,13 +18,13 @@ public class JWTUtil {
     public static final String TOKEN_ID = "token_id";
     public static final String ROLE_ID = "role";
 
-    @Value("${dpauc.oauth.jjwt.secret}")
+    @Value("${neptune.oauth.jjwt.secret}")
     private String secret;
 
-    @Value("${dpauc.oauth.jjwt.expiration.access}")
+    @Value("${neptune.oauth.jjwt.expiration.access}")
     private String expirationTime;
 
-    @Value("${dpauc.oauth.jjwt.expiration.refresh}")
+    @Value("${neptune.oauth.jjwt.expiration.refresh}")
     private String expirationRefreshTime;
 
     public Claims getAllClaimsFromToken(String token) {

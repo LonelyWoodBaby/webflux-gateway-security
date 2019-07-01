@@ -2,6 +2,7 @@ package com.dpacu.gateway.authorize.details.domain;
 
 import com.dpacu.gateway.authorize.details.domain.status.AccountStatus;
 import com.dpacu.gateway.authorize.details.domain.status.LoginType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -10,10 +11,14 @@ import java.util.List;
 
 @Data
 public class AdminDomain implements Serializable {
+
+    public AdminDomain() {
+    }
+
     /**
      * 用户名，且唯一，用于用户业务ID
      */
-    private final String username;
+    private String username;
     private String password;
     private AccountStatus accountStatus;
     private LocalDateTime loginTime;

@@ -8,7 +8,14 @@ import java.util.List;
 
 @Data
 public class PermissionDomain implements Serializable {
-    private final String permName;
+    public PermissionDomain() {
+    }
+
+    public PermissionDomain(String permName) {
+        this.permName = permName;
+    }
+
+    private String permName;
     private String permChName;
     private String uriExpression;
     private RequestMethodType requestMethodType;

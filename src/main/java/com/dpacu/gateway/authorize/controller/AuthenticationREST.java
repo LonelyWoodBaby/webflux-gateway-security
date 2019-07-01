@@ -37,7 +37,7 @@ public class AuthenticationREST {
     @Autowired
     @Qualifier("permissionRedisTemplate")
     private RedisTemplate<String, PermissionDomain> permissionDomainRedisTemplate;
-    @Value("${dpauc.oauth.jjwt.expiration.refresh}")
+    @Value("${neptune.oauth.jjwt.expiration.refresh}")
     private Long expirationRefreshTime;
 
     @RequestMapping(value = "/authorize/login", method = RequestMethod.POST)

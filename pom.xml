@@ -10,7 +10,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <groupId>neptune</groupId>
+    <version>1.0.0.RELASE</version>
     <artifactId>neptune-cloud-authorize</artifactId>
+    <packaging>jar</packaging>
+    <!--<modules>-->
+        <!--<module>gatewayCientDemo</module>-->
+    <!--</modules>-->
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -98,10 +104,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>

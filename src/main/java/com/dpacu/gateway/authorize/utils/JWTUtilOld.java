@@ -13,13 +13,13 @@ import java.util.*;
 //@Component
 //public class JWTUtil {
 //
-//    @Value("${dpauc.oauth.jjwt.secret}")
+//    @Value("${neptune.oauth.jjwt.secret}")
 //    private String secret;
 //
-//    @Value("${dpauc.oauth.jjwt.expiration.access}")
+//    @Value("${neptune.oauth.jjwt.expiration.access}")
 //    private String expirationTime;
 //
-//    @Value("${dpauc.oauth.jjwt.expiration.refresh}")
+//    @Value("${neptune.oauth.jjwt.expiration.refresh}")
 //    private String expirationRefreshTime;
 //
 //    public Claims getAllClaimsFromToken(String token) {

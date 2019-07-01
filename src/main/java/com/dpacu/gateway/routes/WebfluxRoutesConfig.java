@@ -20,15 +20,15 @@ public class WebfluxRoutesConfig {
      * @param builder
      * @return
      */
-    @Bean(name = "dpauc-client-route")
+    @Bean(name = "neptune-client-route")
     public RouteLocator authorizationLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(r -> r.path(CLIENT_TEST_PATH + "/**")
                         .filters( f -> f.stripPrefix(2))
-//                        .uri("lb://DPAUC-AUTHORIZATION/")
+//                        .uri("lb://neptune-AUTHORIZATION/")
                         .uri("http://localhost:10001/")
                         .order(2)
-                        .id("dpauc-client-route-config")
+                        .id("neptune-client-route-config")
                 ).build();
     }
 }

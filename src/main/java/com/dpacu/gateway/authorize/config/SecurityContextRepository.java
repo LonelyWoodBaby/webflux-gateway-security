@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -27,6 +28,11 @@ import java.util.Optional;
 @Component
 @Slf4j
 public class SecurityContextRepository implements ServerSecurityContextRepository {
+    @Value("${neptune.authorize.permission.enable:true}")
+    private boolean enablePermission;
+    @Value("${neptune.authorize.enable:true}")
+    private boolean enableAuthorize;
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -48,7 +54,7 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
             String authToken = authHeader.substring(7);
             Authentication auth = new UsernamePasswordAuthenticationToken(authToken, authToken);
             return this.authenticationManager.authenticate(auth)
-                    .filter(authentication -> validatePermission(authToken,exchange.getRequest()))
+                    .filter(authentication -> (!enablePermission) || validatePermission(authToken,exchange.getRequest()))
                     .map(SecurityContextImpl::new);
         } else {
             return Mono.empty();
