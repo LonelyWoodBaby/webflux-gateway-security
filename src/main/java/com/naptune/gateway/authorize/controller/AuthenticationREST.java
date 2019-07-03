@@ -1,5 +1,7 @@
 package com.naptune.gateway.authorize.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.TextNode;
 import com.naptune.gateway.authorize.controller.model.AuthRequest;
 import com.naptune.gateway.authorize.controller.model.AuthResponse;
 import com.naptune.gateway.authorize.details.AdminDetails;
@@ -12,6 +14,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +24,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -75,8 +81,9 @@ public class AuthenticationREST {
      * @param refreshToken 刷新令牌
      * @return 获取新的刷新令牌的相应
      */
-    @RequestMapping(value = "/authorize/refreshToken",method = {RequestMethod.POST,RequestMethod.GET})
-    public Mono<ResponseEntity<?>> refreshToken(@RequestParam(name = "refreshToken") @NonNull String refreshToken){
+    @RequestMapping(value = "/authorize/refreshToken",method = {RequestMethod.POST})
+    public Mono<ResponseEntity<?>> refreshToken(@RequestBody @NonNull String refreshToken) throws IOException {
+//        String refreshToken = (String) new ObjectMapper().readValue(refreshTokenJson, HashMap.class).get("refreshToken");
         String accessToken = jwtUtil.createAccessTokenByRefreshToken(refreshToken);
         if(accessToken == null){
             return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).build());
