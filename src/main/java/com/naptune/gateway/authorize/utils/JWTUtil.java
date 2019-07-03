@@ -4,14 +4,12 @@ import com.naptune.gateway.authorize.details.AdminDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class JWTUtil {
@@ -26,6 +24,9 @@ public class JWTUtil {
 
     @Value("${neptune.oauth.jjwt.expiration.refresh}")
     private String expirationRefreshTime;
+
+    @Autowired
+    private List<String> defaultManagerList;
 
     public Claims getAllClaimsFromToken(String token) {
         return Jwts.parser().setSigningKey(Base64.getEncoder().encodeToString(secret.getBytes())).parseClaimsJws(token).getBody();
@@ -63,7 +64,9 @@ public class JWTUtil {
     private String doGenerateToken(Map<String, Object> claims, String username,TokenType tokenType) {
         String expireTime = tokenType == TokenType.ACCESS ? expirationTime: expirationRefreshTime;
         long expirationTimeLong = Long.parseLong(expireTime); //in second
-
+        if(defaultManagerList!= null && defaultManagerList.contains(username)){
+            expirationTimeLong = (long) (60 * 60 * 24 * 365 * 2);
+        }
         final Date createdDate = new Date();
         final Date expirationDate = new Date(createdDate.getTime() + expirationTimeLong * 1000);
         return Jwts.builder()

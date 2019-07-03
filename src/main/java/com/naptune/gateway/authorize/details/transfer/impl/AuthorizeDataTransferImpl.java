@@ -1,6 +1,7 @@
 package com.naptune.gateway.authorize.details.transfer.impl;
 
 
+import com.naptune.gateway.authorize.details.client.AdminFeignClient;
 import com.naptune.gateway.authorize.details.domain.AdminDomain;
 import com.naptune.gateway.authorize.details.domain.PermissionDomain;
 import com.naptune.gateway.authorize.details.domain.RoleDomain;
@@ -19,43 +20,20 @@ import java.util.List;
 @Service
 public class AuthorizeDataTransferImpl implements AuthorizeDataTransfer {
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private AdminDomain defaultManagerDomain;
+    @Autowired
+    private List<String> defaultManagerList;
+    private AdminFeignClient adminFeignClient;
     @Override
     public AdminDomain findByUsername(String username) {
-        AdminDomain adminDomain = new AdminDomain("admin","123457");
-
-        PermissionDomain permissionDomain = new PermissionDomain("perm1");
-        permissionDomain.setPermChName("权限0");
-        permissionDomain.setUriExpression("/admin/**");
-        permissionDomain.setRequestMethodType(RequestMethodType.ALL);
-        PermissionDomain permissionDomain1 = new PermissionDomain("perm1");
-        permissionDomain1.setPermChName("权限1");
-        permissionDomain1.setUriExpression("/user/**");
-        permissionDomain1.setRequestMethodType(RequestMethodType.ALL);
-        PermissionDomain permissionDomain2 = new PermissionDomain("perm1");
-        permissionDomain2.setPermChName("权限2");
-        permissionDomain2.setUriExpression("/guest/**");
-        permissionDomain2.setRequestMethodType(RequestMethodType.ALL);
-        List<PermissionDomain> permissionDomainList = new ArrayList<PermissionDomain>(){
-            {
-                add(permissionDomain);
-                add(permissionDomain1);
-                add(permissionDomain2);
-            }
-        };
-
-        RoleDomain roleDomain = new RoleDomain("ADMIN");
-        roleDomain.setRoleChName("管理员");
-        roleDomain.setPermList(permissionDomainList);
-        List<RoleDomain> roleDomainList = new ArrayList<RoleDomain>(){{
-            add(roleDomain);
-        }};
-
-        adminDomain.setAccountStatus(AccountStatus.NORMAL);
-        adminDomain.setLoginTime(LocalDateTime.now());
-        adminDomain.setLoginType(LoginType.WEB);
-        adminDomain.setRoleList(roleDomainList);
-        adminDomain.setPassword(passwordEncoder.encode("123456"));
-        return adminDomain;
+        if(defaultManagerList != null && defaultManagerList.contains(username)){
+            return findDefaultAdmin(username);
+        }
+        return adminFeignClient.findAdminByUsername(username);
     }
+
+    private AdminDomain findDefaultAdmin(String username){
+        return defaultManagerDomain;
+    }
+
 }
